@@ -1,0 +1,17 @@
+en
+conf t
+hostname ISP-Router
+ipv6 unicast-routing
+interface Loopback0
+ipv6 address 2000:0010::1/128
+no shut
+int se0/3/0 
+ipv6 address 2000:0001::1/127
+no shut  
+int se0/3/1
+ipv6 address 2000:0002::1/127
+no shut
+exit
+exit
+copy running-config startup-config
+

@@ -1,0 +1,23 @@
+en
+conf t
+hostname HQ-SW
+vlan 10
+exit
+vlan 20
+exit
+interface fa0/7
+switchport access vlan 10
+switchport mode access
+
+interface range fa0/1 - 2 
+channel-group 2 mode passive
+interface port-channel 2 
+switchport mode trunk
+
+interface range fa0/5 - 6
+channel-group 3 mode passive
+interface port-channel 3
+switchport mode trunk
+exit
+exit
+copy running-config startup-config

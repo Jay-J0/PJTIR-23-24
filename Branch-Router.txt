@@ -1,0 +1,14 @@
+en
+conf t
+hostname B-R
+ipv6 unicast-routing
+int se0/3/1
+ipv6 address 2000:0002::2/127 
+no shut  
+int g0/0
+ipv6 address 2000:0002::5/127  
+ipv6 address autoconfig 
+no shut
+exit
+exit
+copy running-config startup-config

@@ -1,0 +1,71 @@
+en
+conf t
+hostname HQ-MLS1
+ip routing
+ipv6 unicast-routing
+vlan 1
+name SSH
+exit
+vlan 10
+name Management
+exit
+vlan 20
+name Administratie
+exit
+
+spanning-tree mode rapid-pvst
+spanning-tree vlan 1 root primary
+spanning-tree vlan 10 root primary
+spanning-tree vlan 20 root secondary
+
+interface vlan1
+ipv6 address 2000:0001:0:1::2/64  
+no shutdown
+standby version 2
+!standby 1 ipv6 2000:0001:0:1::1/64 werkt niet in PT
+standby 1 ipv6 autoconfig
+standby 1 priority 105 
+standby 1 preempt 
+standby 1 track fa0/7
+ipv6 address autoconfig 
+
+interface vlan10
+ipv6 address 2000:0001:0:10::2/64   
+no shutdown
+standby version 2
+!standby 10 ipv6 2000:0001:0:10::1/64 
+standby 10 ipv6 autoconfig
+standby 10 priority 105 
+standby 10 preempt 
+standby 10 track fa0/7
+ipv6 address autoconfig 
+
+interface vlan20
+ipv6 address 2000:0001:0:20::2/64  
+no shutdown
+standby version 2
+!standby 20 ipv6 2000:0001:0:20::1/64 
+standby 20 ipv6 autoconfig
+standby 20 priority 100
+standby 20 preempt 
+standby 20 track fa0/7
+ipv6 address autoconfig 
+
+interface range fa0/3-4
+no switchport
+channel-group 1 mode active
+interface Port-Channel 1 
+ipv6 address 2000:0001::13/127  
+
+interface range fa0/1 - 2 
+channel-group 2 mode active
+interface port-channel 2
+switchport mode trunk
+
+interface fa0/7
+no switchport
+ipv6 address 2000:0001::6/127  
+
+exit
+exit
+copy running-config startup-config
